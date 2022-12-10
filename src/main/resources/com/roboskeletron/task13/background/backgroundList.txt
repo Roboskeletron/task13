@@ -1,0 +1,3 @@
+0 background/data.jpg
+1 background/background0.png
+2 background/background1.webp
