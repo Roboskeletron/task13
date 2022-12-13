@@ -5,11 +5,15 @@ import com.roboskeletron.task13.primitives.Sprite;
 
 public class Entity {
     protected Transform transform;
-    protected Sprite sprite;
+    protected Sprite sprite = null;
 
     public Entity(Point2D position, Sprite sprite){
         transform = new Transform(position);
         this.sprite = sprite;
+    }
+
+    public Entity(Point2D position){
+        transform = new Transform(position);
     }
 
     public Transform getTransform(){
