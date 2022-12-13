@@ -23,8 +23,6 @@ public class Render {
 
         String backgroundResourceName = ResourceManager.getBackgroundName(backgroundIndex);
         backgroundImage = ResourceManager.getImageFromResource(backgroundResourceName);
-
-        drawBackground();
     }
 
     private void drawBackground(){
@@ -39,11 +37,16 @@ public class Render {
         for (var entity : entities){
             var position = entity.getTransform().getPosition();
             Sprite sprite = entity.getSprite();
-            graphicsContext.drawImage(sprite.getImage(), position.x(), position.y());
+
+            if (sprite != null) {
+                graphicsContext.drawImage(sprite.getImage(), position.x(), position.y());
+            }
         }
     }
 
     public void drawFrame(){
-
+        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawBackground();
+        drawEntities();
     }
 }
