@@ -27,7 +27,7 @@ public class Application extends javafx.application.Application {
 
         primaryStage.setScene(scene);
         Render render = new Render(canvas, 1);
-        GameController gameController = new GameController(render);
+        GameController gameController = new GameController(render, width, height);
         scene.setOnKeyPressed(KeyController::onKeyPressed);
         scene.setOnKeyReleased(KeyController::onKeyReleased);
 
