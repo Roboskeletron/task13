@@ -12,17 +12,27 @@ public class GameController extends AnimationTimer {
     private double width;
     private double height;
     private double floorY;
-    Player player = new Player(new Point2D(500, 514.25), new Sprite(0), "character0");
+    private NetworkController networkController;
+    Player player;
 
-    public GameController(Render render, double width, double height){
+    public GameController(Render render, double width, double height, NetworkController networkController){
         this.render = render;
         var entitiesList = render.getEntitiesList();
-        entitiesList.add(player);
         this.width = width;
         this.height = height;
+        this.networkController = networkController;
+
+        if (networkController.isSever){
+            player = new Player(new Point2D(500, 514.25), new Sprite(0), "character0");
+        }
+        else{
+            player = new Player(new Point2D(1219, 514.25), new Sprite(0), "character1");
+        }
 
         floorY = height - height * 0.42;
         player.setFloor(floorY);
+        entitiesList.add(player);
+        entitiesList.add(networkController.getPlayer());
     }
     @Override
     public void handle(long now) {
