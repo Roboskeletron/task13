@@ -20,6 +20,10 @@ public class Player {
     private double acceleration = 0.25;
     public boolean canMove = true;
 
+    private double gravity = 0.5;
+    private double jumpVelocity = 20;
+    private double floor;
+
     public Player(Point2D position, Sprite sprite, String name) {
         transform = new Transform(position);
         this.sprite = sprite;
@@ -40,46 +44,53 @@ public class Player {
                 KeyController.keyInfo.contains(KeyCode.S), KeyController.keyInfo.contains(KeyCode.W));
     }
     private void updatePosition(boolean forward, boolean back, boolean up, boolean down){
-        if (!canMove)
+        if (!canMove && isAlive())
             return;
 
         double x = (forward ? 1 : 0)
                 + (back ? -1 : 0);
 
-        double y = (up ? 1 : 0)
-                + (down ? -1 : 0);
+        double y = 0;
 
         x*=acceleration;
-        y*=acceleration;
 
         if (x == 0 && movementDirection.x() != 0){
             x = acceleration * -Math.signum(movementDirection.x());
         }
 
-        if (y == 0 && movementDirection.y() != 0){
-            y = acceleration * -Math.signum(movementDirection.y());
+        if (!isInAir()){
+            velocityY = 0;
+        }
+
+        if (movementDirection.y() == 0 && !isInAir()){
+            y = -(down ? 1 : 0) * jumpVelocity;
+        }
+
+        if (isInAir()) {
+            y = gravity;
         }
 
         velocityX+=x;
         velocityY+=y;
 
-        velocityX = normalizeVelocity(velocityX);
-        velocityY = normalizeVelocity(velocityY);
-        
-        
+        if (velocityY > 0){
+            velocityY = velocityY + 0;
+        }
+        velocityX = normalizeVelocity(velocityX, maxVelocity, acceleration);
+        velocityY = normalizeVelocity(velocityY, jumpVelocity, gravity);
 
         movementDirection = new Vector2D(velocityX, velocityY);
 
         transform.translate(movementDirection);
     }
 
-    public double normalizeVelocity(double origin) {
+    public double normalizeVelocity(double origin, double max, double acceleration) {
         double abs = Math.abs(origin);
 
         if (abs < acceleration)
             return 0;
 
-        return abs <= maxVelocity ? origin : maxVelocity * Math.signum(origin);
+        return abs <= max ? origin : max * Math.signum(origin);
     }
 
     public double getVelocity(){
@@ -104,5 +115,14 @@ public class Player {
 
     public Image getImage(){
         return sprite.getImage(movementDirection);
+    }
+
+    public void setFloor(double y){
+        if (y > 0)
+            floor = y;
+    }
+
+    public boolean isInAir(){
+        return transform.getPosition().y() < floor;
     }
 }
