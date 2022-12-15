@@ -1,7 +1,6 @@
 package com.roboskeletron.task13;
 
-import com.roboskeletron.task13.base.Entity;
-import com.roboskeletron.task13.primitives.Sprite;
+import com.roboskeletron.task13.Entities.Player;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -15,9 +14,9 @@ public class Render {
     private final Canvas canvas;
     private Image backgroundImage;
 
-    private List<Entity> entities = new ArrayList<>();
+    private List<Player> players = new ArrayList<>();
 
-    public Render(Canvas canvas, int backgroundIndex) throws IOException {
+    public Render(Canvas canvas, int backgroundIndex) {
         this.canvas = canvas;
         graphicsContext = canvas.getGraphicsContext2D();
 
@@ -29,18 +28,15 @@ public class Render {
         graphicsContext.drawImage(backgroundImage, 0, 0, canvas.getWidth(), canvas.getHeight());
     }
 
-    public List<Entity> getEntitiesList(){
-        return entities;
+    public List<Player> getEntitiesList(){
+        return players;
     }
 
     private void drawEntities(){
-        for (var entity : entities){
-            var position = entity.getTransform().getPosition();
-            Sprite sprite = entity.getSprite();
+        for (var player : players){
+            var position = player.getTransform().getPosition();
 
-            if (sprite != null) {
-                graphicsContext.drawImage(sprite.getImage(), position.x(), position.y());
-            }
+            graphicsContext.drawImage(player.getImage(), position.x(), position.y());
         }
     }
 

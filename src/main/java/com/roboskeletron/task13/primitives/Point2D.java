@@ -1,4 +1,4 @@
 package com.roboskeletron.task13.primitives;
 
-public record Point2D(int x, int y) {
+public record Point2D(double x, double y) {
 }

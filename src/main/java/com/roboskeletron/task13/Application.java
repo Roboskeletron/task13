@@ -1,6 +1,7 @@
 package com.roboskeletron.task13;
 
 import com.roboskeletron.task13.controllers.GameController;
+import com.roboskeletron.task13.controllers.KeyController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -27,6 +28,10 @@ public class Application extends javafx.application.Application {
         primaryStage.setScene(scene);
         Render render = new Render(canvas, 1);
         GameController gameController = new GameController(render);
+        scene.setOnKeyPressed(KeyController::onKeyPressed);
+        scene.setOnKeyReleased(KeyController::onKeyReleased);
+
+        gameController.start();
 
         primaryStage.show();
     }

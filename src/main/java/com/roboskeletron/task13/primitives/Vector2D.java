@@ -1,34 +1,50 @@
 package com.roboskeletron.task13.primitives;
 
-public record Vector2D(int x, int y) {
-    public Vector2D multiply(int value){
-        int x = this.x * value;
-        int y = this.y * value;
+public record Vector2D(double x, double y) {
+    public Vector2D multiply(double value){
+        double x = this.x * value;
+        double y = this.y * value;
 
         return new Vector2D(x, y);
     }
 
-    public Vector2D add(int value){
-        int x = this.x + value;
-        int y = this.y + value;
+    public Vector2D add(double value){
+        double x = this.x + value;
+        double y = this.y + value;
 
         return new Vector2D(x, y);
     }
 
     public Vector2D add(Vector2D vector){
-        int x = this.x + vector.x();
-        int y = this.y + vector.y();
+        double x = this.x + vector.x();
+        double y = this.y + vector.y();
 
         return new Vector2D(x, y);
     }
 
-    public Vector2D subtract(int value){
+    public Vector2D subtract(double value){
         return this.add(-value);
     }
 
     public Vector2D subtract(Vector2D vector){
-        int x = this.x - vector.x();
-        int y = this.y - vector.y();
+        double x = this.x - vector.x();
+        double y = this.y - vector.y();
+
+        return new Vector2D(x, y);
+    }
+
+    public Vector2D normalize(){
+        double x = this.x;
+        double y = this.y;
+
+        if (x > 1)
+            x = 1;
+        if (x < -1)
+            x = -1;
+        if (y > 1)
+            y = 1;
+        if (y < -1)
+            y = -1;
 
         return new Vector2D(x, y);
     }

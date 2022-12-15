@@ -13,23 +13,23 @@ public class Transform implements ITransform {
 
     @Override
     public void translate(Vector2D vector) {
-        int x = position.x() + vector.x();
-        int y = position.y() + vector.y();
+        double x = position.x() + vector.x();
+        double y = position.y() + vector.y();
 
         position = new Point2D(x, y);
     }
 
     @Override
-    public void translateX(int x) {
+    public void translateX(double x) {
         x += position.x();
-        int y = position.y();
+        double y = position.y();
 
         position = new Point2D(x, y);
     }
 
     @Override
-    public void translateY(int y) {
-        int x = position.x();
+    public void translateY(double y) {
+        double x = position.x();
         y += position.y();
 
         position = new Point2D(x, y);
@@ -41,7 +41,7 @@ public class Transform implements ITransform {
     }
 
     @Override
-    public void setPosition(int x, int y) {
+    public void setPosition(double x, double y) {
         position = new Point2D(x, y);
     }
 
