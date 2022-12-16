@@ -51,8 +51,10 @@ public class NetworkController implements IInput {
     }
 
     public void update(KeyController input) throws IOException {
-        inputInfo = networkPackage.readPackage(inputStream)[0];
-        player.update(this);
+        if (inputStream.available() > 0) {
+            inputInfo = networkPackage.readPackage(inputStream)[0];
+            player.update(this);
+        }
 
         networkPackage.sendPackage(input.formPackage(), outputStream);
     }
