@@ -3,6 +3,7 @@ package com.roboskeletron.task13.controllers;
 import com.roboskeletron.task13.Entities.Player;
 import com.roboskeletron.task13.Render;
 import com.roboskeletron.task13.base.Transform;
+import com.roboskeletron.task13.interfaces.IInput;
 import com.roboskeletron.task13.primitives.Point2D;
 import com.roboskeletron.task13.primitives.Sprite;
 import javafx.animation.AnimationTimer;
@@ -13,14 +14,16 @@ public class GameController extends AnimationTimer {
     private double height;
     private double floorY;
     private NetworkController networkController;
+    private IInput input;
     Player player;
 
-    public GameController(Render render, double width, double height, NetworkController networkController){
+    public GameController(Render render, double width, double height, NetworkController networkController, IInput input){
         this.render = render;
         var entitiesList = render.getEntitiesList();
         this.width = width;
         this.height = height;
         this.networkController = networkController;
+        this.input = input;
 
         if (networkController.isSever){
             player = new Player(new Point2D(500, 514.25), new Sprite(0), "character0");
@@ -36,9 +39,15 @@ public class GameController extends AnimationTimer {
     }
     @Override
     public void handle(long now) {
-        player.update();
-        normalizePosition(player.getTransform());
-        render.drawFrame();
+        try {
+            player.update(input);
+            normalizePosition(player.getTransform());
+            networkController.update((KeyController) input);
+            render.drawFrame();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void normalizePosition(Transform transform){
