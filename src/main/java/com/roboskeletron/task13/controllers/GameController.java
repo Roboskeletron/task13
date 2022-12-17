@@ -34,6 +34,7 @@ public class GameController extends AnimationTimer {
 
         floorY = height - height * 0.42;
         player.setFloor(floorY);
+        networkController.getPlayer().setFloor(floorY);
         entitiesList.add(player);
         entitiesList.add(networkController.getPlayer());
     }
@@ -42,6 +43,7 @@ public class GameController extends AnimationTimer {
         try {
             player.update(input);
             normalizePosition(player.getTransform());
+            normalizePosition(networkController.getPlayer().getTransform());
             networkController.update((KeyController) input);
             render.drawFrame();
         }
