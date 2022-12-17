@@ -64,16 +64,16 @@ public class NetworkController implements IInput {
 
     @Override
     public boolean up() {
-        return (inputInfo & 4) == 1;
+        return (inputInfo | 4) == 1;
     }
 
     @Override
     public boolean forward() {
-        return (inputInfo & 1) == 1;
+        return (inputInfo | 1) == 1;
     }
 
     @Override
     public boolean back() {
-        return (inputInfo & 2) == 1;
+        return (inputInfo | 2) == 1;
     }
 }
