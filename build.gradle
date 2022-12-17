@@ -25,7 +25,7 @@ tasks.withType(JavaCompile) {
 
 application {
     mainModule = 'com.roboskeletron.task13'
-    mainClass = 'com.roboskeletron.task13.HelloApplication'
+    mainClass = 'com.roboskeletron.task13.Application'
 }
 
 javafx {

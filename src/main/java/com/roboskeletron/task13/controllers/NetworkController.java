@@ -53,27 +53,28 @@ public class NetworkController implements IInput {
     }
 
     public void update(KeyController input) throws IOException {
+        inputInfo = 0;
         if (inputStream.available() > 0) {
             inputInfo = networkPackage.readPackage(inputStream)[0];
             logger.writeLine(String.valueOf(inputInfo));
-            player.update(this);
         }
 
         networkPackage.sendPackage(input.formPackage(), outputStream);
+        player.update(this);
     }
 
     @Override
     public boolean up() {
-        return (inputInfo | 4) == 1;
+        return (inputInfo & 4) == 4;
     }
 
     @Override
     public boolean forward() {
-        return (inputInfo | 1) == 1;
+        return (inputInfo & 1) == 1;
     }
 
     @Override
     public boolean back() {
-        return (inputInfo | 2) == 1;
+        return (inputInfo & 2) == 2;
     }
 }
