@@ -1,16 +1,14 @@
 package com.roboskeletron.task13.controllers;
 
-import com.roboskeletron.task13.Logger;
 import com.roboskeletron.task13.interfaces.IInput;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.HashSet;
 
 public class KeyController implements IInput {
-    public static Logger keyLogger = new Logger("key_log.txt");
+    //public static Logger keyLogger = new Logger("key_log.txt");
     public HashSet<KeyCode> keyInfo = new HashSet<>();
     public void onKeyPressed(KeyEvent keyEvent) {
         keyInfo.add(keyEvent.getCode());
@@ -46,7 +44,7 @@ public class KeyController implements IInput {
             data+=2;
 
         byte[] byteArray = new byte[]{data};
-        keyLogger.writeLine(String.valueOf(data));
+        //keyLogger.writeLine(String.valueOf(data));
         return byteArray;
     }
 }

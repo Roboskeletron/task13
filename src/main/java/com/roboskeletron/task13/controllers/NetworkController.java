@@ -1,7 +1,6 @@
 package com.roboskeletron.task13.controllers;
 
 import com.roboskeletron.task13.Entities.Player;
-import com.roboskeletron.task13.Logger;
 import com.roboskeletron.task13.interfaces.IInput;
 import com.roboskeletron.task13.primitives.NetworkPackage;
 import com.roboskeletron.task13.primitives.Point2D;
@@ -21,7 +20,7 @@ public class NetworkController implements IInput {
     private byte inputInfo = 0;
     private Player player;
     private NetworkPackage networkPackage = new NetworkPackage(1);
-    private Logger logger = new Logger("network_log.txt");
+    //private Logger logger = new Logger("network_log.txt");
 
     public NetworkController(int port) throws IOException {
         isSever = true;
@@ -56,7 +55,7 @@ public class NetworkController implements IInput {
         inputInfo = 0;
         if (inputStream.available() > 0) {
             inputInfo = networkPackage.readPackage(inputStream)[0];
-            logger.writeLine(String.valueOf(inputInfo));
+            //logger.writeLine(String.valueOf(inputInfo));
         }
 
         networkPackage.sendPackage(input.formPackage(), outputStream);
