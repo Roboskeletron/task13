@@ -36,7 +36,12 @@ public class Render {
         for (var player : players){
             var position = player.getTransform().getPosition();
 
-            graphicsContext.drawImage(player.getImage(), position.x(), position.y());
+            var image = player.getImage();
+            double x = position.x() - image.getWidth() / 2 * player.getLookingDirection();
+            //double y = position.y() + image.getHeight() / 2;
+
+            graphicsContext.drawImage(image, 0, 0, image.getWidth(), image.getHeight(),
+                    x, position.y(), image.getWidth() * player.getLookingDirection(), image.getHeight());
         }
     }
 

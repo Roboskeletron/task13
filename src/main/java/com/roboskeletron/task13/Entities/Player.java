@@ -16,6 +16,7 @@ public class Player extends Physics {
     private String name;
     private int health;
     private double floor;
+    private int lookingDirection = 1;
 
     public Player(Point2D position, Sprite sprite, String name) {
         transform = new Transform(position);
@@ -61,5 +62,15 @@ public class Player extends Physics {
     @Override
     public boolean isInAir() {
         return transform.getPosition().y() < floor;
+    }
+
+    public int getLookingDirection(){
+        if (movementDirection.x() > 0)
+            lookingDirection = 1;
+
+        else if (movementDirection.x() < 0)
+            lookingDirection = -1;
+
+        return lookingDirection;
     }
 }
