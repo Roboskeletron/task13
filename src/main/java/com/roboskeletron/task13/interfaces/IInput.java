@@ -4,4 +4,6 @@ public interface IInput {
     boolean up();
     boolean forward();
     boolean back();
+    boolean block();
+    boolean punch();
 }
