@@ -29,7 +29,7 @@ public class NetworkController implements IInput {
         inputStream = socket.getInputStream();
         outputStream = socket.getOutputStream();
 
-        player = new Player(new Point2D(1219, 514.25), new Sprite(0), "character1");
+        player = new Player(new Point2D(1219, 514.25), new Sprite(1), "character1");
     }
 
     public NetworkController(String address) throws IOException {
@@ -44,7 +44,7 @@ public class NetworkController implements IInput {
         inputStream = socket.getInputStream();
         outputStream = socket.getOutputStream();
 
-        player = new Player(new Point2D(500, 514.25), new Sprite(0), "character0");
+        player = new Player(new Point2D(500, 514.25), new Sprite(1), "character1");
     }
 
     public Player getPlayer(){

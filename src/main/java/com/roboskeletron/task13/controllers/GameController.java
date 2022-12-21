@@ -1,6 +1,7 @@
 package com.roboskeletron.task13.controllers;
 
 import com.roboskeletron.task13.Entities.Player;
+import com.roboskeletron.task13.Logger;
 import com.roboskeletron.task13.Render;
 import com.roboskeletron.task13.base.Transform;
 import com.roboskeletron.task13.interfaces.IInput;
@@ -8,6 +9,8 @@ import com.roboskeletron.task13.primitives.Point2D;
 import com.roboskeletron.task13.primitives.Sprite;
 import com.roboskeletron.task13.primitives.Vector2D;
 import javafx.animation.AnimationTimer;
+
+import java.io.IOException;
 
 public class GameController extends AnimationTimer {
     private final Render render;
@@ -17,6 +20,7 @@ public class GameController extends AnimationTimer {
     private NetworkController networkController;
     private IInput input;
     Player player;
+    Logger logger = new Logger("damage_logger.txt");
 
     public GameController(Render render, double width, double height, NetworkController networkController, IInput input){
         this.render = render;
@@ -47,13 +51,12 @@ public class GameController extends AnimationTimer {
                 return;
             }
             player.update(input);
+            networkController.update((KeyController) input);
             normalizePosition(player.getTransform());
             normalizePosition(networkController.getPlayer().getTransform());
             
             if (input.punch())
                 enforceDamage(player, networkController.getPlayer());
-            
-            networkController.update((KeyController) input);
 
             if (networkController.punch())
                 enforceDamage(networkController.getPlayer(), player);
@@ -64,26 +67,24 @@ public class GameController extends AnimationTimer {
         }
     }
 
-    private void enforceDamage(Player agent, Player target) {
+    private void enforceDamage(Player agent, Player target) throws IOException {
+        if (agent.getBlockingState())
+            return;
+
         Point2D agentPosition = agent.getTransform().getPosition();
         Point2D targetPosition = target.getTransform().getPosition();
 
-        double distance = new Vector2D(agentPosition.x() - targetPosition.x(),
-                agentPosition.y() - targetPosition.y()).length();
+        Vector2D distanceVector = Transform.getDistanceVector(agentPosition, targetPosition);
 
-        if (Math.signum(agentPosition.x() - targetPosition.x()) != agent.getLookingDirection())
-            return;
+        double damage = player.punch(distanceVector);
 
-        if (distance > 64)
-            return;
-
-        int damage = 100;
-
-        if (target.getLookingDirection() != agent.getLookingDirection()
-                && target.getBlockingState())
-            damage-=50;
-
-        target.takeDamage(damage);
+        logger.writeLine(target.getName() + " took damage");
+        if (target.getLookingDirection() != agent.getLookingDirection())
+            target.takeDamage(damage * 2);
+        else if (target.getBlockingState())
+            target.takeDamage(damage / 2);
+        else
+            target.takeDamage(damage);
     }
 
     private void normalizePosition(Transform transform){

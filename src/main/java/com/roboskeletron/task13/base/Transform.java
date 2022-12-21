@@ -48,4 +48,8 @@ public class Transform implements ITransform {
     public Point2D getPosition(){
         return position;
     }
+
+    public static Vector2D getDistanceVector(Point2D a, Point2D b){
+        return new Vector2D(a.x() - b.x(), a.y() - b.y());
+    }
 }

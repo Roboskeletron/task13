@@ -30,7 +30,7 @@ public class Application extends javafx.application.Application {
 
         System.out.println("Connection established");
 
-        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreen(false);
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         primaryStage.setFullScreenExitHint("");
 

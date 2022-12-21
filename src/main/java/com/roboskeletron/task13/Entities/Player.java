@@ -14,10 +14,13 @@ public class Player extends Physics {
     private Transform transform;
     private Sprite sprite;
     private String name;
-    private int health;
+    private double health;
     private double floor;
     private int lookingDirection = 1;
     private boolean isBlocking = false;
+    private int framesAfterPunch = 0;
+    private boolean canPunch = true;
+    private double damage = 50;
 
     public Player(Point2D position, Sprite sprite, String name) {
         transform = new Transform(position);
@@ -37,6 +40,7 @@ public class Player extends Physics {
     public void update(IInput input){
         updatePosition(input);
         setBlockingState(input.block());
+        updatePunch();
     }
 
     private void updatePosition(IInput input){
@@ -76,7 +80,7 @@ public class Player extends Physics {
         return lookingDirection;
     }
 
-    public void takeDamage(int damage){
+    public void takeDamage(double damage){
         if (damage > health)
             health = 0;
         else
@@ -96,7 +100,31 @@ public class Player extends Physics {
         return isBlocking;
     }
 
-    public int getHealth(){
+    public double getHealth(){
         return health;
+    }
+
+    private void updatePunch(){
+        if (canPunch)
+            framesAfterPunch = 0;
+        else if (framesAfterPunch >= 60)
+            canPunch = true;
+        else framesAfterPunch += 1;
+    }
+
+    public boolean isCanPunch(){
+        return canPunch;
+    }
+
+    public double punch(Vector2D distanceVector){
+        if (!canPunch)
+            return  0;
+
+        canPunch = false;
+
+        if (distanceVector.length() > 100 || lookingDirection == Math.signum(distanceVector.x()))
+            return 0;
+
+        return damage;
     }
 }
