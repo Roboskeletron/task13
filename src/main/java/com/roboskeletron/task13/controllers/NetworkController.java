@@ -76,4 +76,14 @@ public class NetworkController implements IInput {
     public boolean back() {
         return (inputInfo & 2) == 2;
     }
+
+    @Override
+    public boolean block() {
+        return (inputInfo & 16) == 16;
+    }
+
+    @Override
+    public boolean punch() {
+        return (inputInfo & 8) == 8;
+    }
 }

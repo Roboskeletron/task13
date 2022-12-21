@@ -33,6 +33,16 @@ public class KeyController implements IInput {
         return keyInfo.contains(KeyCode.A);
     }
 
+    @Override
+    public boolean block() {
+        return keyInfo.contains(KeyCode.Y);
+    }
+
+    @Override
+    public boolean punch() {
+        return keyInfo.contains(KeyCode.T);
+    }
+
     public byte[] formPackage() throws IOException {
         byte data = 0;
 
