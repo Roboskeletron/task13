@@ -52,6 +52,10 @@ public class KeyController implements IInput {
             data+=1;
         if (back())
             data+=2;
+        if (punch())
+            data+=8;
+        if (block())
+            data+=16;
 
         byte[] byteArray = new byte[]{data};
         //keyLogger.writeLine(String.valueOf(data));

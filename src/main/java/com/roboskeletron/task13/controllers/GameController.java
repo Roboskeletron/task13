@@ -6,6 +6,7 @@ import com.roboskeletron.task13.base.Transform;
 import com.roboskeletron.task13.interfaces.IInput;
 import com.roboskeletron.task13.primitives.Point2D;
 import com.roboskeletron.task13.primitives.Sprite;
+import com.roboskeletron.task13.primitives.Vector2D;
 import javafx.animation.AnimationTimer;
 
 public class GameController extends AnimationTimer {
@@ -41,15 +42,48 @@ public class GameController extends AnimationTimer {
     @Override
     public void handle(long now) {
         try {
+            if (!player.isAlive() || !networkController.getPlayer().isAlive()){
+                this.stop();
+                return;
+            }
             player.update(input);
             normalizePosition(player.getTransform());
             normalizePosition(networkController.getPlayer().getTransform());
+            
+            if (input.punch())
+                enforceDamage(player, networkController.getPlayer());
+            
             networkController.update((KeyController) input);
+
+            if (networkController.punch())
+                enforceDamage(networkController.getPlayer(), player);
             render.drawFrame();
         }
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void enforceDamage(Player agent, Player target) {
+        Point2D agentPosition = agent.getTransform().getPosition();
+        Point2D targetPosition = target.getTransform().getPosition();
+
+        double distance = new Vector2D(agentPosition.x() - targetPosition.x(),
+                agentPosition.y() - targetPosition.y()).length();
+
+        if (Math.signum(agentPosition.x() - targetPosition.x()) != agent.getLookingDirection())
+            return;
+
+        if (distance > 64)
+            return;
+
+        int damage = 100;
+
+        if (target.getLookingDirection() != agent.getLookingDirection()
+                && target.getBlockingState())
+            damage-=50;
+
+        target.takeDamage(damage);
     }
 
     private void normalizePosition(Transform transform){

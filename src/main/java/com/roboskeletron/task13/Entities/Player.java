@@ -17,6 +17,7 @@ public class Player extends Physics {
     private int health;
     private double floor;
     private int lookingDirection = 1;
+    private boolean isBlocking = false;
 
     public Player(Point2D position, Sprite sprite, String name) {
         transform = new Transform(position);
@@ -35,6 +36,7 @@ public class Player extends Physics {
 
     public void update(IInput input){
         updatePosition(input);
+        setBlockingState(input.block());
     }
 
     private void updatePosition(IInput input){
@@ -72,5 +74,29 @@ public class Player extends Physics {
             lookingDirection = -1;
 
         return lookingDirection;
+    }
+
+    public void takeDamage(int damage){
+        if (damage > health)
+            health = 0;
+        else
+            health-=damage;
+    }
+
+    public void setBlockingState(boolean state){
+        if (state)
+            canMove = false;
+        else
+            canMove = true;
+
+        isBlocking = state;
+    }
+
+    public boolean getBlockingState(){
+        return isBlocking;
+    }
+
+    public int getHealth(){
+        return health;
     }
 }

@@ -33,19 +33,7 @@ public record Vector2D(double x, double y) {
         return new Vector2D(x, y);
     }
 
-    public Vector2D normalize(){
-        double x = this.x;
-        double y = this.y;
-
-        if (x > 1)
-            x = 1;
-        if (x < -1)
-            x = -1;
-        if (y > 1)
-            y = 1;
-        if (y < -1)
-            y = -1;
-
-        return new Vector2D(x, y);
+    public double length(){
+        return Math.sqrt(x * x + y * y);
     }
 }
